@@ -1,0 +1,26 @@
+{
+  "name": "any-sync",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Alexandr Voronkin <hello@elasticweb.ru>",
+  "dependencies": {
+    "bluebird": "^3.3.1",
+    "lodash": "^4.5.1",
+    "wrapped": "^1.0.0"
+  },
+  "engines": {
+    "node": ">= 4.2.0"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "http://www.opensource.org/licenses/mit-license.php"
+  },
+  "devDependencies": {
+    "mocha": "^2.4.5",
+    "sinon": "^1.17.3"
+  }
+}
