@@ -60,26 +60,28 @@ describe('auto', function () {
   })
 
   it('should  prevent dead-locks due to inexistant dependencies', function () {
-    assert.throws(function () {
-      auto({
-        task1: ['nonexist', function (results, cb) {
-          cb(null, 'task1')
-        }],
-      })
+    return auto({
+      task1: ['nonexist', function (results, cb) {
+        cb(null, 'task1')
+      }],
     })
+      .then(null, function (err) {
+        assert(err)
+      })
   })
 
   it('should prevent dead-locks due to cyclic dependencies', function () {
-    assert.throws(function () {
-      auto({
-        task1: ['task2', function (results, callback) {
-          callback(null, 'task1')
-        }],
-        task2: ['task1', function (results, callback) {
-          callback(null, 'task2')
-        }]
-      })
+    auto({
+      task1: ['task2', function (results, callback) {
+        callback(null, 'task1')
+      }],
+      task2: ['task1', function (results, callback) {
+        callback(null, 'task2')
+      }]
     })
+      .then(null, function (err) {
+        assert(err)
+      })
   })
 
   it('should stops running tasks on error', function (done) {
