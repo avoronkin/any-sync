@@ -26,7 +26,6 @@ describe('parallel', function () {
     parallel([
       function (cb) {
         throw new Error()
-        helpers.rasync(1, cb)
       }
     ], function (err, results) {
       assert(err)
@@ -39,8 +38,7 @@ describe('parallel', function () {
       function (cb) {
         helpers.rasync(1, cb)
       }
-    ])
-      .then(done.bind(null, null), done)
+    ]).then(done.bind(null, null), done)
   })
 
   it('should pass error in promise', function () {
@@ -48,22 +46,19 @@ describe('parallel', function () {
       function (cb) {
         cb(new Error())
       }
-    ])
-      .then(null, function (err) {
-        assert(err)
-      })
+    ]).then(null, function (err) {
+      assert(err)
+    })
   })
 
   it('should pass throwed error in promise', function () {
     return parallel([
       function (cb) {
         throw new Error()
-        helpers.rasync(1, cb)
       }
-    ])
-      .then(null, function (err) {
-        assert(err)
-      })
+    ]).then(null, function (err) {
+      assert(err)
+    })
   })
 
   it('should acsept object with tasks', function () {
@@ -74,10 +69,11 @@ describe('parallel', function () {
       two: function (cb) {
         helpers.rasync(2, cb)
       }
-    })
-      .then(function (results) {
-        assert.deepEqual(results, { one: 1, two: 2})
+    }).then(function (results) {
+      assert.deepEqual(results, {
+        one: 1, two: 2
       })
+    })
   })
 
   it('should acsept array with tasks', function () {
@@ -88,10 +84,9 @@ describe('parallel', function () {
       function (cb) {
         helpers.rasync(2, cb)
       }
-    ])
-      .then(function (results) {
-        assert.deepEqual(results, [1, 2])
-      })
+    ]).then(function (results) {
+      assert.deepEqual(results, [1, 2])
+    })
   })
 
   it('should suport sync, async, promise and generator', function () {
@@ -107,10 +102,9 @@ describe('parallel', function () {
       },
       function * fn () {
         return yield helpers.rpromise(4)
-      },
-    ])
-      .then(function (results) {
-        assert.deepEqual(results, [1, 2, 3, 4])
-      })
+      }
+    ]).then(function (results) {
+      assert.deepEqual(results, [1, 2, 3, 4])
+    })
   })
 })

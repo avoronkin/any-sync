@@ -1,5 +1,5 @@
 var _ = require('lodash')
-var Q = require('q')
+var Promise = require('bluebird')
 
 module.exports = {
   rasync: function (value, cb) {
@@ -9,7 +9,7 @@ module.exports = {
   },
   rpromise: function (value) {
     var that = this
-    return Q.Promise(function (resolve) {
+    return new Promise(function (resolve) {
       that.rdelay(function () {
         resolve(value)
       })

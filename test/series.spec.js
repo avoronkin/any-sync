@@ -27,7 +27,6 @@ describe('series', function () {
     series([
       function (cb) {
         throw new Error()
-        helpers.rasync(1, cb)
       }
     ], function (err, results) {
       assert(err)
@@ -40,8 +39,7 @@ describe('series', function () {
       function (cb) {
         helpers.rasync(1, cb)
       }
-    ])
-      .then(done.bind(null, null), done)
+    ]).then(done.bind(null, null), done)
   })
 
   it('should pass error in promise', function () {
@@ -49,22 +47,19 @@ describe('series', function () {
       function (cb) {
         cb(new Error())
       }
-    ])
-      .then(null, function (err) {
-        assert(err)
-      })
+    ]).then(null, function (err) {
+      assert(err)
+    })
   })
 
   it('should pass throwed error in promise', function () {
     return series([
       function (cb) {
         throw new Error()
-        helpers.rasync(1, cb)
       }
-    ])
-      .then(null, function (err) {
-        assert(err)
-      })
+    ]).then(null, function (err) {
+      assert(err)
+    })
   })
 
   it('should acsept object with tasks', function () {
@@ -75,10 +70,9 @@ describe('series', function () {
       two: function (cb) {
         helpers.rasync(2, cb)
       }
+    }).then(function (results) {
+      assert.deepEqual(results, { one: 1, two: 2 })
     })
-      .then(function (results) {
-        assert.deepEqual(results, { one: 1, two: 2})
-      })
   })
 
   it('should acsept array with tasks', function () {
@@ -89,10 +83,9 @@ describe('series', function () {
       function (cb) {
         helpers.rasync(2, cb)
       }
-    ])
-      .then(function (results) {
-        assert.deepEqual(results, [1, 2])
-      })
+    ]).then(function (results) {
+      assert.deepEqual(results, [1, 2])
+    })
   })
 
   it('should suport sync, async, promise and generator', function () {
@@ -108,16 +101,16 @@ describe('series', function () {
       },
       function * fn () {
         return yield helpers.rpromise(4)
-      },
-    ])
-      .then(function (results) {
-        assert.deepEqual(results, [1, 2, 3, 4])
-      })
+      }
+    ]).then(function (results) {
+      assert.deepEqual(results, [1, 2, 3, 4])
+    })
   })
 
   it('should call tasks in seiries', function () {
     var spy1, spy2, spy3, spy4
     var spy = sinon.spy(helpers, 'rasync')
+
     return series([
       function (cb1) {
         spy1 = sinon.spy(cb1)
@@ -134,14 +127,13 @@ describe('series', function () {
       function (cb4) {
         spy4 = sinon.spy(cb4)
         helpers.rasync(4, spy4)
-      },
-    ])
-      .then(function (results) {
-        assert.deepEqual(results, [1, 2, 3, 4])
-        assert(spy1.calledBefore(spy.withArgs(2)))
-        assert(spy2.calledBefore(spy.withArgs(3)))
-        assert(spy3.calledBefore(spy.withArgs(4)))
-        helpers.rasync.restore()
-      })
+      }
+    ]).then(function (results) {
+      assert.deepEqual(results, [1, 2, 3, 4])
+      assert(spy1.calledBefore(spy.withArgs(2)))
+      assert(spy2.calledBefore(spy.withArgs(3)))
+      assert(spy3.calledBefore(spy.withArgs(4)))
+      helpers.rasync.restore()
+    })
   })
 })

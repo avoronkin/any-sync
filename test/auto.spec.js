@@ -34,7 +34,6 @@ describe('auto', function () {
       },
       task2: ['task1', function (results, callback) {
         throw new Error('task2 should not be called')
-        callback()
       }],
       task3: function (results, callback) {
         callback('testerror2')
@@ -47,15 +46,23 @@ describe('auto', function () {
 
   it('no callback', function (done) {
     auto({
-      task1: function (results, callback) {callback();},
-      task2: ['task1', function (results, callback) {callback(); done();}]
+      task1: function (results, callback) {
+        callback()
+      },
+      task2: ['task1', function (results, callback) {
+        callback(); done()
+      }]
     })
   })
 
   it('concurrency no callback', function (done) {
     auto({
-      task1: function (results, callback) {callback();},
-      task2: ['task1', function (results, callback) {callback(); done();}]
+      task1: function (results, callback) {
+        callback()
+      },
+      task2: ['task1', function (results, callback) {
+        callback(); done()
+      }]
     }, 1)
   })
 
@@ -63,7 +70,7 @@ describe('auto', function () {
     return auto({
       task1: ['nonexist', function (results, cb) {
         cb(null, 'task1')
-      }],
+      }]
     })
       .then(null, function (err) {
         assert(err)
@@ -91,7 +98,6 @@ describe('auto', function () {
       },
       task2: function (results, callback) {
         throw new Error('test2 should not be called')
-        callback()
       }
     }, 1, function (err) {
       assert.equal(err, 'error')

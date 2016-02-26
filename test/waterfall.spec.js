@@ -1,6 +1,5 @@
 var waterfall = require('../lib/waterfall')
 var assert = require('assert')
-var Q = require('q')
 var helpers = require('./helpers')
 var sinon = require('sinon')
 
@@ -28,7 +27,6 @@ describe('waterfall', function () {
     waterfall([
       function (cb) {
         throw new Error()
-        helpers.rasync(1, cb)
       }
     ], function (err, results) {
       assert(err)
@@ -41,8 +39,7 @@ describe('waterfall', function () {
       function (cb) {
         helpers.rasync(1, cb)
       }
-    ])
-      .then(done.bind(null, null), done)
+    ]).then(done.bind(null, null), done)
   })
 
   it('should pass error in promise', function () {
@@ -50,22 +47,19 @@ describe('waterfall', function () {
       function (cb) {
         cb(new Error())
       }
-    ])
-      .then(null, function (err) {
-        assert(err)
-      })
+    ]).then(null, function (err) {
+      assert(err)
+    })
   })
 
   it('should pass throwed error in promise', function () {
     return waterfall([
       function (cb) {
         throw new Error()
-        helpers.rasync(1, cb)
       }
-    ])
-      .then(null, function (err) {
-        assert(err)
-      })
+    ]).then(null, function (err) {
+      assert(err)
+    })
   })
 
   it('should acsept array with tasks', function () {
@@ -76,10 +70,9 @@ describe('waterfall', function () {
       function (num, cb) {
         helpers.rasync(num + 2, cb)
       }
-    ])
-      .then(function (results) {
-        assert.equal(results, 3)
-      })
+    ]).then(function (results) {
+      assert.equal(results, 3)
+    })
   })
 
   it('should suport sync, async, promise and generator', function () {
@@ -95,11 +88,10 @@ describe('waterfall', function () {
       },
       function * fn (num) {
         return yield helpers.rpromise(num * 4)
-      },
-    ])
-      .then(function (results) {
-        assert.deepEqual(results, 36)
-      })
+      }
+    ]).then(function (results) {
+      assert.deepEqual(results, 36)
+    })
   })
 
   it('should call tasks in seiries', function () {
@@ -121,13 +113,12 @@ describe('waterfall', function () {
       function (num, cb4) {
         spy4 = sinon.spy(cb4)
         helpers.rasync(num + 4, spy4)
-      },
-    ])
-      .then(function (results) {
-        assert(spy1.calledBefore(spy.withArgs(3)))
-        assert(spy2.calledBefore(spy.withArgs(6)))
-        assert(spy3.calledBefore(spy.withArgs(10)))
-        helpers.rasync.restore()
-      })
+      }
+    ]).then(function (results) {
+      assert(spy1.calledBefore(spy.withArgs(3)))
+      assert(spy2.calledBefore(spy.withArgs(6)))
+      assert(spy3.calledBefore(spy.withArgs(10)))
+      helpers.rasync.restore()
+    })
   })
 })

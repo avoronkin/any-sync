@@ -29,21 +29,19 @@ describe('map', function () {
           resolve(item * 2)
         }, delay)
       })
-    })
-      .then(function (results) {
-        assert.deepEqual(results, [4, 6, 8])
-        done()
-      }, done)
+    }).then(function (results) {
+      assert.deepEqual(results, [4, 6, 8])
+      done()
+    }, done)
   })
 
   it('should support sync function as iterator', function (done) {
     map([2, 3, 4], function (item) {
       return item * 2
-    })
-      .then(function (results) {
-        assert.deepEqual(results, [4, 6, 8])
-        done()
-      }, done)
+    }).then(function (results) {
+      assert.deepEqual(results, [4, 6, 8])
+      done()
+    }, done)
   })
 
   it('should return promise', function (done) {
@@ -54,10 +52,9 @@ describe('map', function () {
           resolve(item * 2)
         }, delay)
       })
-    })
-      .then(function (results) {
-        assert.deepEqual(results, [4, 6, 8])
-        done()
-      }, done)
+    }).then(function (results) {
+      assert.deepEqual(results, [4, 6, 8])
+      done()
+    }, done)
   })
 })

@@ -34,7 +34,7 @@ describe('eachOf', function () {
       })
     })
       .then(function () {
-        assert.deepEqual(results, {one: 4, two: 6,three: 8})
+        assert.deepEqual(results, {one: 4, two: 6, three: 8})
       })
   })
 

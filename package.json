@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "standard && mocha"
   },
   "author": "Alexandr Voronkin <hello@elasticweb.ru>",
   "dependencies": {
@@ -22,6 +22,19 @@
   "devDependencies": {
     "mocha": "^2.4.5",
     "pre-commit": "^1.1.2",
-    "sinon": "^1.17.3"
+    "sinon": "^1.17.3",
+    "standard": "^6.0.7"
+  },
+  "standard": {
+    "globals": [
+      "describe",
+      "context",
+      "before",
+      "beforeEach",
+      "after",
+      "afterEach",
+      "it",
+      "expect"
+    ]
   }
 }
