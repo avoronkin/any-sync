@@ -1,7 +1,7 @@
-var eachOfSeries = require('../lib/eachOfSeries')
+var eachOfSeries = require('../lib/eachSeries')
 var assert = require('assert')
 
-describe('eachOfSeries', function () {
+describe('eachSeries', function () {
   it('should process "each series" with sync', function (done) {
     var results = []
     eachOfSeries([1, 2, 3], function (item) {
@@ -14,7 +14,7 @@ describe('eachOfSeries', function () {
 
   it('should process "each series" with async', function (done) {
     var results = []
-    eachOfSeries([1, 2, 3], function (item, key, cb) {
+    eachOfSeries([1, 2, 3], function (item, cb) {
       setTimeout(function () {
         results.push(item * 2)
         cb()
@@ -59,11 +59,11 @@ describe('eachOfSeries', function () {
   })
 
   it('should support objects', function (done) {
-    var results = {}
-    eachOfSeries({one: 1, two: 2, three: 3}, function (value, key) {
-      results[key] = value * 2
+    var results = []
+    eachOfSeries({one: 1, two: 2, three: 3}, function (value) {
+      results.push(value * 2)
     }).then(function () {
-      assert.deepEqual(results, {one: 2, two: 4, three: 6})
+      assert.deepEqual(results, [2, 4, 6])
       done()
     }, done)
   })
